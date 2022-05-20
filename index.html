@@ -227,7 +227,7 @@
         }
 
         function removethis(e) {
-            e.parentElement.remove();
+            e.parentElement.parentElement.remove();
             // console.log(newListItem.children.length);
             if (newListItem.children.length == 1) {
                 let emptyMessageTag = document.createElement('li');
