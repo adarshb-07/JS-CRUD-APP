@@ -167,7 +167,12 @@
         let btn = document.getElementById('btn');
         btn.addEventListener('click', addcourse);
         let newListItem = document.getElementById('list-items');
-
+        if (newListItem.children.length == 1) {
+                let emptyMessageTag = document.createElement('li');
+                emptyMessageTag.textContent = "Nothing to show here. Please add content";
+                emptyMessageTag.classList = "emptyMsg";
+                newListItem.append(emptyMessageTag);
+            }
         function addcourse(e) {
             if (newListItem.children[1].className == "emptyMsg") {
                 newListItem.children[1].remove();
