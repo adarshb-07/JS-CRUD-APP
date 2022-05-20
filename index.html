@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUP APP</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
+    header h1 {
+        text-align: center;
+        font-size: 3rem;
+        font-weight: 500;
+    }
+
+    nav {
+        background-color: #222228;
+        overflow: hidden;
+    }
+
+    a {
+        display: block;
+        float: left;
+        padding: 12px 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 120%;
+    }
+
+    a:hover {
+        background: #546790;
+    }
+
+    main {
+        margin: 20px auto 0;
+        width: 900px;
+    }
+
+    .form input[type=text] {
+        padding: 8px 10px;
+        width: 93%;
+        font-size: 109%;
+    }
+
+    .form button {
+        margin: 0 -5px;
+        padding: 13px 20px;
+        background-color: #222228;
+        color: #fff;
+        border: none;
+        vertical-align: top;
+    }
+
+    .form button:hover {
+        background-color: #546790;
+    }
+
+    *:focus {
+        outline: none;
+    }
+
+    .list {
+        width: 100%;
+    }
+
+    .list ul {
+        padding: 0;
+    }
+
+    .list ul li {
+        list-style: none;
+        border: 1px solid #222228;
+        padding: 15px 20px;
+    }
+
+    .list ul li:first-child {
+        font-size: 150%;
+        text-align: center;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .btn {
+        background-color: #ffffff00;
+        color: black;
+        padding: 5px 12px;
+        align-items: flex-end;
+        float: right;
+        display: block;
+        margin: -8px 0;
+        border: 1px solid red;
+        color: red;
+        font-size: 110%;
+    }
+
+    .btn:hover {
+        background-color: red;
+        color: white;
+        cursor: pointer;
+    }
+
+    .btn-edit {
+        margin-right: 10px;
+        background-color: rgb(219, 186, 20);
+        color: black;
+        border: 1px solid yellow;
+    }
+
+    .btn-edit:hover {
+        background-color: rgba(255, 0, 0, 0);
+        color: rgb(219, 186, 20);
+        border: 1px solid rgb(219, 186, 20);
+
+    }
+
+    li h2 {
+        display: inline;
+        font-size: 120%;
+        font-weight: 400;
+    }
+
+    .editInput {
+        padding: 6px 20px;
+    }
+</style>
+
+<body>
+    <header>
+        <h1>CRUD APP</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Other Projects</a>
+            <a href="#">Contact Me</a>
+            <a href="#">About Me</a>
+        </nav>
+    </header>
+    <main>
+        <div class="form">
+            <input id="chapter" type="text" placeholder="Chapter Name">
+            <button id="btn">Add</button>
+        </div>
+        <div class="list" id="list">
+            <ul id="list-items">
+                <li>All Courses</li>
+                <li>
+                    <h2>All Courses</h2>
+                    <button class="btn" onclick="removethis(this)">Remove</button>
+                    <button class="btn btn-edit" onclick="editthis(this)">Edit</button>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        let chapter = document.getElementById('chapter');
+        let btn = document.getElementById('btn');
+        btn.addEventListener('click', addcourse);
+        let newListItem = document.getElementById('list-items');
+
+        function addcourse(e) {
+            if (newListItem.children[1].className == "emptyMsg") {
+                newListItem.children[1].remove();
+            }
+            let courseTitle = chapter.value;
+            let listItemTag = document.createElement('li');
+            listItemTag.innerHTML = `<h2>${courseTitle}</h2>
+                    <button class="btn" onclick="removethis(this)">Remove</button>
+                    <button class="btn btn-edit" onclick="editthis(this)">Edit</button>`
+            newListItem.append(listItemTag);
+            // console.log(courseTitle);
+        }
+
+        function removethis(e) {
+            e.parentElement.remove();
+            // console.log(newListItem.children.length);
+            if (newListItem.children.length == 1) {
+                let emptyMessageTag = document.createElement('li');
+                emptyMessageTag.textContent = "Nothing to show here. Please add content";
+                emptyMessageTag.classList = "emptyMsg";
+                newListItem.append(emptyMessageTag);
+            }
+        }
+
+        function editthis(e) {
+            let elementTag = e.parentElement.children[0];
+            if (e.textContent == 'Edit') {
+                e.textContent = "Done"
+                let value = e.parentElement.children[0].textContent;
+                // console.log(elementTag);
+                let CreateInput = document.createElement('input');
+                CreateInput.setAttribute('value', elementTag.textContent)
+                CreateInput.classList = "editInput";
+                elementTag.replaceWith(CreateInput);
+            }
+            else {
+                e.textContent = "Edit"
+                let listItem = document.createElement('h2');
+                listItem.textContent = elementTag.value;
+                elementTag.replaceWith(listItem);
+            }
+
+            // console.log(value.children[0].contains('<h2>'));
+            // if(value.children[0].contains('<h2>')){
+            //     let CreateInput = document.createElement('input');
+            //     CreateInput.setAttribute('value', value.children[0].textContent)
+            //     CreateInput.classList = "editInput";
+            //     value.children[0].replaceWith(CreateInput);
+            //     var editValue = value.children[0];
+            //     console.log(editValue.value);
+            // }else {
+            //     console.log("hello");
+            //     let Edited = document.createElement('h2');
+            //     Edited.textContent = editValue;
+            //     value.children[0].replaceWith(Edited);
+            // }
+        }
+    </script>
+
+
+</body>
+
+</html>
